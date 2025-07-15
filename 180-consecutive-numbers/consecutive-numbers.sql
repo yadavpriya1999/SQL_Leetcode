@@ -1,6 +1,10 @@
 # Write your MySQL query statement below
-select distinct l1.num as ConsecutiveNums
-from Logs l1,Logs l2,Logs l3
-where l1.id=l2.id-1 and l2.id=l3.id-1
-and l1.num=l2.num and l2.num=l3.num
-;
+
+with cte as (
+select *, LEAD(num,1) over() as n2, LEAD(num,2) over() as n3
+from Logs )
+
+select distinct num as ConsecutiveNums
+from cte
+where num=n2
+and num=n3;
