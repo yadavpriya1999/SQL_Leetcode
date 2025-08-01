@@ -5,7 +5,7 @@ union
 select  accepter_id as id ,requester_id
 from RequestAccepted)
 
-select id, count(accepter_id) as num
+select id, count(distinct accepter_id) as num
 from cte
 group by id
 order by num desc
