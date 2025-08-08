@@ -1,13 +1,12 @@
-# Write your MySQL query statement below
-select d.name as Department,
-e.name as Employee ,
-e.salary as Salary
+#Using Subquery
+with cte as (select d.name Department,
+e.name Employee,
+e.salary as Salary,
+max(e.salary) over(partition by e.departmentID ) as maxsalary
 from Employee e
 join Department d
-on e.departmentId=d.id
-where (d.id,e.salary) in 
-(select departmentId,max(salary)
-from Employee
-group by departmentId
+on e.departmentID=d.id)
 
-);
+select Department,Employee,Salary
+from cte
+where Salary = maxsalary;
